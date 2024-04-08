@@ -14,7 +14,7 @@ const login: Action = async ({ cookies, request }) => {
 	if (username === ADMIN_ID && password === ADMIN_PASSWORD) {
 		cookies.set(username, password, {
 			// send cookie for every page
-			path: '/admin',
+			path: '/admin/',
 			// server side only cookie so you can't use `document.cookie`
 			httpOnly: true,
 			// only requests from same site can send cookies

@@ -5,7 +5,7 @@
 	export let items: {
 		quote: string;
 		name: string;
-		title: string;
+		// title: string;
 	}[];
 	export let direction: 'left' | 'right' | undefined = 'left';
 	export let speed: 'fast' | 'normal' | 'slow' | undefined = 'fast';
@@ -92,9 +92,9 @@
 							<span class=" text-sm font-normal leading-[1.6] text-gray-400">
 								{item.name}
 							</span>
-							<span class=" text-sm font-normal leading-[1.6] text-gray-400">
-								{item.title}
-							</span>
+							<!-- <span class=" text-sm font-normal leading-[1.6] text-gray-400"> -->
+							<!-- 	{item.title} -->
+							<!-- </span> -->
 						</span>
 					</div>
 				</blockquote>
