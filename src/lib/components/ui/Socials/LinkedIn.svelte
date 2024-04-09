@@ -1,6 +1,7 @@
 <script>
-  export let url = 7180924944422166528
+	export let url;
 </script>
+
 <iframe
 	src="https://www.linkedin.com/embed/feed/update/urn:li:share:{url}"
 	height="881"

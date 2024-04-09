@@ -3,11 +3,36 @@
 	import HeroParallax from '$lib/components/ui/HeroParallax/HeroParallax.svelte';
 	import InfiniteMovingCards from '$lib/components/ui/InfiniteMovingCards/InfiniteMovingCards.svelte';
 	import Sparkles from '$lib/components/ui/Sparkles/Sparkles.svelte';
-	import { GraduationCapIcon, Home, MessageCircle, User } from 'lucide-svelte';
+	import MailList from '$lib/components/ui/mail-list/MailList.svelte';
+	import GridAndDotBackgrounds from '$lib/components/ui/GridAndDotBackground/+GridAndDotBackgrounds.svelte';
+	import {
+		BrainCircuit,
+		Computer,
+		GraduationCapIcon,
+		Home,
+		MessageCircle,
+		User
+	} from 'lucide-svelte';
 	import FloatingNavbar from '$lib/components/ui/FloatingNavbar/FloatingNavbar.svelte';
 	import Navbar from '$lib/components/ui/Navbar/Navbar.svelte';
+	import type { ComponentType } from 'svelte';
+	import type { Icon } from 'lucide-svelte';
+	import Instagram from 'lucide-svelte/icons/instagram';
+	import Linkedin from 'lucide-svelte/icons/linkedin';
+	import Twitter from 'lucide-svelte/icons/twitter';
+	import Facebook from 'lucide-svelte/icons/facebook';
 
-	const navItems = [
+	export let data;
+	let { achievements, testimonials, posts, notices } = data;
+	console.log(data);
+	type navItem = {
+		name: string;
+		link: string;
+		icon: ComponentType<Icon>;
+		submenu?: navItem[];
+	};
+
+	const navItems: navItem[] = [
 		{
 			name: 'Home',
 			link: '/',
@@ -15,133 +40,33 @@
 		},
 		{
 			name: 'About',
-			link: '/',
+			link: '/about',
 			icon: User
 		},
 		{
 			name: 'Academics',
-			link: '/',
-			icon: GraduationCapIcon
+			link: '/academics',
+			icon: GraduationCapIcon,
+			submenu: [
+				{
+					name: 'Computer',
+					link: '/computer',
+					icon: Computer
+				},
+				{
+					name: 'AIDS',
+					link: '/aids',
+					icon: BrainCircuit
+				}
+			]
 		},
 		{
-			name: 'Admissions',
-			link: '/',
+			name: 'Admission',
+			link: '/admission',
 			icon: MessageCircle
 		}
 	];
 
-	const products = [
-		{
-			title: 'Moonbeam',
-			link: 'https://gomoonbeam.com',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/moonbeam.png'
-		},
-		{
-			title: 'Cursor',
-			link: 'https://cursor.so',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/cursor.png'
-		},
-		{
-			title: 'Rogue',
-			link: 'https://userogue.com',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/rogue.png'
-		},
-
-		{
-			title: 'Editorially',
-			link: 'https://editorially.org',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/editorially.png'
-		},
-		{
-			title: 'Editrix AI',
-			link: 'https://editrix.ai',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/editrix.png'
-		},
-		{
-			title: 'Pixel Perfect',
-			link: 'https://app.pixelperfect.quest',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/pixelperfect.png'
-		},
-
-		{
-			title: 'Algochurn',
-			link: 'https://algochurn.com',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/algochurn.png'
-		},
-		{
-			title: 'Aceternity UI',
-			link: 'https://ui.aceternity.com',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/aceternityui.png'
-		},
-		{
-			title: 'Tailwind Master Kit',
-			link: 'https://tailwindmasterkit.com',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/tailwindmasterkit.png'
-		},
-		{
-			title: 'SmartBridge',
-			link: 'https://smartbridgetech.com',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/smartbridge.png'
-		},
-		{
-			title: 'Renderwork Studio',
-			link: 'https://renderwork.studio',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/renderwork.png'
-		},
-
-		{
-			title: 'Creme Digital',
-			link: 'https://cremedigital.com',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/cremedigital.png'
-		},
-		{
-			title: 'Golden Bells Academy',
-			link: 'https://goldenbellsacademy.com',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/goldenbellsacademy.png'
-		},
-		{
-			title: 'Invoker Labs',
-			link: 'https://invoker.lol',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/invoker.png'
-		},
-		{
-			title: 'E Free Invoice',
-			link: 'https://efreeinvoice.com',
-			thumbnail: 'https://aceternity.com/images/products/thumbnails/new/efreeinvoice.png'
-		}
-	];
-
-	const testimonials = [
-		{
-			quote:
-				'It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
-			name: 'Charles Dickens',
-			// title: 'A Tale of Two Cities'
-		},
-		{
-			quote:
-				"To be, or not to be, that is the question: Whether 'tis nobler in the mind to suffer The slings and arrows of outrageous fortune, Or to take Arms against a Sea of troubles, And by opposing end them: to die, to sleep.",
-			name: 'William Shakespeare',
-			// title: 'Hamlet'
-		},
-		{
-			quote: 'All that we see or seem is but a dream within a dream.',
-			name: 'Edgar Allan Poe',
-			// title: 'A Dream Within a Dream'
-		},
-		{
-			quote:
-				'It is a truth universally acknowledged, that a single man in possession of a good fortune, must be in want of a wife.',
-			name: 'Jane Austen',
-			// title: 'Pride and Prejudice'
-		},
-		{
-			quote:
-				'Call me Ishmael. Some years ago—never mind how long precisely—having little or no money in my purse, and nothing particular to interest me on shore, I thought I would sail about a little and see the watery part of the world.',
-			name: 'Herman Melville',
-			// title: 'Moby-Dick'
-		}
-	];
 	let HeroText = 'Fr. Conceicao Rodrigues College of Engineering';
 	let HeroDescription = 'Moulding engineers who build the nation';
 </script>
@@ -151,7 +76,7 @@
 	<FloatingNavbar {navItems} />
 </div>
 <div class="w-100vw container mx-auto mt-8">
-	<HeroParallax {products} {HeroText} {HeroDescription} />
+	<HeroParallax products={achievements} {HeroText} {HeroDescription} />
 </div>
 
 <FlexibleSection
@@ -164,9 +89,59 @@
 />
 
 <!-- TODO: Latest posts-->
+<GridAndDotBackgrounds>
+	<p
+		class="relative z-20 bg-gradient-to-b from-neutral-200 to-neutral-500 bg-clip-text py-8 text-4xl font-bold text-transparent sm:text-7xl"
+	>
+		Latest
+	</p>
+	<div class="mx-4 flex w-full min-w-[400px] flex-wrap gap-4">
+		<div class="grid min-h-20 gap-2 p-4 sm:grid-cols-1 lg:grid-cols-2" style="flex:3">
+			{#each posts as post}
+				{#if post.platform === 'Instagram'}
+					<a
+						href={'https://www.instagram.com/' + post.url}
+						class="flex h-full w-full items-end justify-center gap-2 rounded-lg border-2 border-white p-4"
+					>
+						<Instagram class="h-10 w-10" />
+						<p class="text-2xl">{post.platform}</p>
+					</a>
+				{:else if post.platform === 'Twitter'}
+					<a
+						href={post.url}
+						class="flex h-full w-full items-end justify-center gap-2 rounded-lg border-2 border-white p-4"
+					>
+						<Twitter class="h-10 w-10" />
+						<p class="text-2xl">{post.platform}</p>
+					</a>
+				{:else if post.platform === 'LinkedIn'}
+					<a
+						href={'https://www.linkedin.com/posts/' + post.url}
+						class="flex h-full w-full items-end justify-center gap-2 rounded-lg border-2 border-white p-4"
+					>
+						<Linkedin class="h-10 w-10" />
+						<p class="text-2xl">{post.platform}</p>
+					</a>
+				{:else if post.platform === 'Facebook'}
+					<a
+						href={'https://www.linkedin.com/posts/' + post.url}
+						class="flex h-full w-full items-end justify-center gap-2 rounded-lg border-2 border-white p-4"
+					>
+						<Facebook class="h-10 w-10" />
+						<p class="text-2xl">{post.platform}</p>
+					</a>
+				{/if}
+			{/each}
+		</div>
+		<!-- TODO: Notices -->
+		<div class="min-h-20 bg-slate-800 rounded-lg p-4" style="flex:2">
+			<MailList {notices} />
+		</div>
+	</div>
+</GridAndDotBackgrounds>
 
 <div
-	class="flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-md bg-slate-950"
+	class="mt-16 flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-md bg-slate-950"
 >
 	<h3 class="relative z-20 text-center text-xl font-bold text-white md:text-7xl lg:text-7xl">
 		Testimonials
@@ -202,4 +177,4 @@
 	</div>
 </div>
 
-<InfiniteMovingCards items={testimonials} direction="right" speed="slow" />
+<InfiniteMovingCards items={testimonials} direction="right" speed="slow" className="mb-32" />

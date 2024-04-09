@@ -1,0 +1,72 @@
+<script lang="ts">
+	import { formatTimeAgo } from '../utils.js';
+	import { cn } from '$lib/utils.js';
+	import { ScrollArea } from '$lib/components/ui/scroll-area';
+
+	type Notice = {
+		id: number;
+		title: string;
+		link: string;
+		description: "Hi, let's have a meeting tomorrow to discuss the project. I've been reviewing the project details and have some ideas I'd like to share. It's crucial that we align on our next steps to ensure the project's success.\n\nPlease come prepared with any questions or insights you may have. Looking forward to our meeting!\n\nBest regards, William";
+		date: Date;
+	};
+	export let items: Notice[];
+
+	function get_badge_variant_from_label(label: string) {
+		if (['work'].includes(label.toLowerCase())) {
+			return 'default';
+		}
+
+		if (['personal'].includes(label.toLowerCase())) {
+			return 'outline';
+		}
+
+		return 'secondary';
+	}
+</script>
+
+<ScrollArea class="h-screen">
+	<div class="flex flex-col gap-2 p-4 pt-0">
+		{#each items as item}
+			<button
+				class={cn(
+					'flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent',
+					$mailStore.selected === item.id && 'bg-muted'
+				)}
+				on:click={() => mailStore.setMail(item.id)}
+			>
+				<div class="flex w-full flex-col gap-1">
+					<div class="flex items-center">
+						<div class="flex items-center gap-2">
+							<div class="font-semibold">{item.name}</div>
+							{#if !item.read}
+								<span class="flex h-2 w-2 rounded-full bg-blue-600" />
+							{/if}
+						</div>
+						<div
+							class={cn(
+								'ml-auto text-xs',
+								$mailStore.selected === item.id ? 'text-foreground' : 'text-muted-foreground'
+							)}
+						>
+							{formatTimeAgo(new Date(item.date))}
+						</div>
+					</div>
+					<div class="text-xs font-medium">{item.subject}</div>
+				</div>
+				<div class="line-clamp-2 text-xs text-muted-foreground">
+					{item.text.substring(0, 300)}
+				</div>
+				{#if item.labels.length}
+					<div class="flex items-center gap-2">
+						{#each item.labels as label}
+							<Badge variant={get_badge_variant_from_label(label)}>
+								{label}
+							</Badge>
+						{/each}
+					</div>
+				{/if}
+			</button>
+		{/each}
+	</div>
+</ScrollArea>

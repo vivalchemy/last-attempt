@@ -1,14 +1,20 @@
 <!-- Navbar.svelte -->
 <script lang="ts">
 	import type { ComponentType } from 'svelte';
+	import type { Icon } from 'lucide-svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Search } from 'lucide-svelte';
-	// import { page } from '$app/stores';
+	import { page } from '$app/stores';
 
-	// let url = $page.url.pathname.substr($page.url.pathname.lastIndexOf('/'));
-
-	export let navItems: { name: string; link: string; icon?: ComponentType }[];
-	// console.log(url);
+	type navItem = {
+		name: string;
+		link: string;
+		icon: ComponentType<Icon>;
+		submenu?: navItem[];
+	};
+	export let navItems: navItem[];
+	let isActive: boolean;
 </script>
 
 <nav
@@ -23,12 +29,33 @@
 
 	<ul class="flex items-center space-x-8">
 		{#each navItems as navItem}
-			<li class="cursor-pointer hover:bg-slate-800 px-4 py-1 rounded-sm active:text-primary"><a href={navItem.link}>{navItem.name}</a></li>
+			{#if !navItem.submenu}
+				{@const isActive = $page.url.pathname.startsWith(navItem.link) && navItem.link !== '/'}
+				<li
+					class="cursor-pointer rounded-sm px-4 py-1 hover:text-primary {isActive &&
+						'bg-slate-800'}"
+				>
+					<a href={navItem.link}>{navItem.name}</a>
+				</li>
+			{:else}
+				<DropdownMenu.Root>
+					<DropdownMenu.Trigger>{navItem.name}</DropdownMenu.Trigger>
+					<DropdownMenu.Content class="bg-slate-900 border-0 text-white">
+						<DropdownMenu.Group>
+							<DropdownMenu.Label>{navItem.name}</DropdownMenu.Label>
+							<DropdownMenu.Separator class="bg-slate-800"/>
+							{#each navItem.submenu as subNavItem}
+								<a href={navItem.link + subNavItem.link}>
+									<DropdownMenu.Item class="hover:bg-slate-800">
+										{subNavItem.name}
+									</DropdownMenu.Item>
+								</a>
+							{/each}
+						</DropdownMenu.Group>
+					</DropdownMenu.Content>
+				</DropdownMenu.Root>
+			{/if}
 		{/each}
-		<!-- <li><a href="/">Home</a></li> -->
-		<!-- <li><a href="/about">About</a></li> -->
-		<!-- <li><a href="/academics">Academics</a></li> -->
-		<!-- <li><a href="/admissions"> Admissions</a></li> -->
 	</ul>
 
 	<ul class="flex items-center space-x-6">

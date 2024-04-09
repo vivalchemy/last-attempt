@@ -5,6 +5,7 @@
 
 	// icons
 	import Database from 'lucide-svelte/icons/database';
+	import Cog from 'lucide-svelte/icons/cog';
 	import BarChart3 from 'lucide-svelte/icons/bar-chart-3';
 	import LogOut from 'lucide-svelte/icons/log-out';
 
@@ -20,20 +21,20 @@
 	const menuItems: MenuItem[] = [
 		{
 			name: 'Database',
-			href: 'dashboard',
-			icon: Database
+			href: 'dashboard/services/achievements',
+			icon: Cog
 		},
 		{
-			name: 'Blog',
-			href: 'analytics',
-			icon: BarChart3
+			name: 'database',
+			href: 'https://supabase.com/dashboard/project/jplevtqqsjpdzeeesbax',
+			icon: Database
 		}
 	];
 </script>
 
 <div class="flex">
 	<aside
-		class="fixed inset-y-0 left-0 z-10 mx-4 my-4 hidden w-14 flex-col rounded-full bg-slate-900 px-4 py-1 sm:flex"
+		class="fixed inset-y-0 left-0 z-10 m-4 hidden w-14 flex-col rounded-full bg-slate-900 px-4 py-1 sm:flex"
 	>
 		<nav class="flex flex-col items-center gap-4 px-2 py-4">
 			<Tooltip.Root>
@@ -54,7 +55,7 @@
 				<Tooltip.Root>
 					<Tooltip.Trigger asChild let:builder>
 						<a
-							href="/admin/{item.href}"
+							href={item.href.startsWith('https') ? item.href : '/admin/' + item.href}
 							class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-primary-foreground md:h-8 md:w-8"
 							use:builder.action
 							{...builder}
@@ -72,7 +73,7 @@
 				<Tooltip.Trigger asChild let:builder>
 					<a
 						href="/admin"
-						class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+						class="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-background md:h-8 md:w-8"
 						use:builder.action
 						{...builder}
 					>
@@ -85,10 +86,7 @@
 		</nav>
 	</aside>
 	<div
-		class="inset-y-0 left-0 z-10 mx-4 my-4 hidden w-14 flex-col rounded-full px-4 py-1 sm:flex"
+		class="inset-y-0 left-0 z-0 mx-4 my-4 hidden w-14 flex-col rounded-full px-4 py-1 sm:flex"
 	></div>
-
-	<!-- <div class="fixed inset-y-0 z-10 mx-4 my-4 hidden w-14 flex-col rounded-full px-4 py-1 sm:flex"> -->
-	<!-- 	this is mine -->
-	<!-- </div> -->
+	<slot />
 </div>
