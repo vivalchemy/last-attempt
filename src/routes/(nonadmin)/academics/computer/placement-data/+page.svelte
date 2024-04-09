@@ -1,1 +1,1 @@
-This is vision
+We gud bruh wbu
