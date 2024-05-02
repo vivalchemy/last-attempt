@@ -1,13 +1,12 @@
-<!-- <script lang="ts">
-	import type { ActionData } from './login/$types';
-
+<script lang="ts">
+  import type { ActionData } from "../$types";
 	export let form: ActionData;
 	// console.log(form)
 </script>
 
 <div class="flex h-screen flex-col items-center justify-center">
 	<form action="?/login" method="POST" class="mx-auto max-w-sm border-2 p-10 shadow rounded-lg border-white">
-    <h2 class="text-3xl font-bold flex justify-center">Login</h2>
+    <h2 class="text-3xl font-bold flex justify-center">Teacher Login</h2>
 		<div class="mb-5">
 			<label for="username" class="mb-2 block text-sm font-medium text-white">Username</label>
 			<input
@@ -34,4 +33,4 @@
 			>Submit</button
 		>
 	</form>
-</div> -->
+</div>

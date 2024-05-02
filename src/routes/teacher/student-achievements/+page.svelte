@@ -14,7 +14,7 @@
   import Check from 'lucide-svelte/icons/check';
   import { cn } from '$lib/utils.js';
   import ExternalLink from 'lucide-svelte/icons/external-link';
-
+  
   let student_name: string = "";
   let student_id: number;
   let proof: string = "";
