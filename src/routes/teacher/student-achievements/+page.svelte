@@ -234,18 +234,18 @@
     </Tooltip.Root>
   </div>
   {#if studentAchievements.length > 0}
-    <div class="grid grid-cols-4 items-center gap-2 min-w-screen rounded-lg bg-slate-800 p-4">
+    <div class="grid grid-cols-7 items-center gap-2 min-w-screen rounded-lg bg-slate-800 p-4">
       <p class="col-span-2">Name</p>
       <p class="col-span-1">Branch</p>
       <p class="col-span-1">Year</p>
       <p class="col-span-2">Achievement</p> 
       <p class="col-span-1">Proof</p>
-      {#each studentAchievements as achievement (achievement.student_id)}
+      {#each studentAchievements as achievement (achievement)}
         {#if searchQuery === undefined || achievement.achievements.toLowerCase().includes(searchQuery.toLowerCase()) || achievement.student_name.toLowerCase().includes(searchQuery.toLowerCase())}
           <p class="col-span-2">{achievement.student_name}</p>
           <p class="col-span-1">{achievement.branch}</p>
           <p class="col-span-1">{achievement.year}</p>
-          <p class="col-span-2">{achievement.achievements}</p>
+          <p class="col-span-2 break-words">{achievement.achievements}</p>
           <Tooltip.Root>
 						<Tooltip.Trigger asChild let:builder>
 							<span

@@ -202,16 +202,16 @@
 	{#if files.length > 0}
 		<div class="grid grid-cols-6 gap-2 overflow-x-auto rounded-lg bg-slate-800 p-4">
 			<p class="col-span-1">id</p>
-			<p class="col-span-3">Description</p>
-			<p class="col-span-2">Link</p>
-			<p class="col-span-1"></p>
+			<p class="col-span-2">Description</p>
+			<p class="col-span-3">Link</p>
+			<!-- <p class="col-span-1"></p> -->
 			{#each files as file (file.id)}
 				{#if searchQuery === undefined || file.description
 						.toLowerCase()
 						.includes(searchQuery.toLowerCase())}
 					<p class="col-span-1">{file.id}</p>
-					<p class="col-span-3">{file.description}</p>
-					<p class="col-span-2">{file.href}</p>
+					<p class="col-span-2 break-all">{file.description}</p>
+					<p class="col-span-3 break-all">{file.href}</p>
 					<!-- <Tooltip.Root> -->
 					<!-- 	<Tooltip.Trigger asChild let:builder> -->
 					<!-- 		<span -->

@@ -254,7 +254,7 @@ async function getAchievements() {
 async function getPosts() {
 	console.log('Getting Posts');
 	try {
-		const { data, error } = await supabase.from('posts').select('id, platform, url');
+		const { data, error } = await supabase.from('posts').select('id, platform, url,image');
 		if (error) {
 			alert(error.message);
 		}
@@ -286,6 +286,7 @@ async function getTestimonials() {
 		// return []; // Return an empty array if fetching fails
 	}
 }
+
 
 export async function load(): Promise<PageServerLoad> {
 	// getPosts();

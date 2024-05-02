@@ -1,4 +1,7 @@
-<script async src="//www.instagram.com/embed.js"></script>
+<script async src="//www.instagram.com/embed.js">
+  export let image;
+  export let url = ""
+</script>
 
 <blockquote
 	data-instgrm-captioned
@@ -9,7 +12,7 @@
 >
 	<div style="padding:16px;">
 		<a
-			href="https://www.instagram.com/reel/C5v5JNzNI_X/?utm_source=ig_embed&amp;utm_campaign=loading"
+			href={url === "" ? "https://www.instagram.com/frcrce_official/" : "https://www.instagram.com/" + url} 
 			style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none;"
 			target="_blank"
 		>
@@ -34,14 +37,14 @@
 					</div>
 				</div>
 			</div>
-				<img src="instagram.jpg" class="h-[25rem] w-[25rem] pt-4"  alt="" />
+				<img src={image} class="h-[25rem] w-[25rem] pt-4"  alt="" />
 			</a
 		>
 		<p
 			style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"
 		>
 			<a
-				href="https://www.instagram.com/reel/C5v5JNzNI_X/?utm_source=ig_embed&amp;utm_campaign=loading"
+				href={url}
 				style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;"
 				target="_blank">A post shared by Fr.Crce Official (@frcrce_official)</a
 			>

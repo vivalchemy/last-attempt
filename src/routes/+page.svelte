@@ -17,11 +17,14 @@
 	import Navbar from '$lib/components/ui/Navbar/Navbar.svelte';
 	import type { ComponentType } from 'svelte';
 	import type { Icon } from 'lucide-svelte';
-	import Instagram from 'lucide-svelte/icons/instagram';
-	import Linkedin from 'lucide-svelte/icons/linkedin';
-	import Twitter from 'lucide-svelte/icons/twitter';
-	import Facebook from 'lucide-svelte/icons/facebook';
+	// import Instagram from 'lucide-svelte/icons/instagram';
+	// import Linkedin from 'lucide-svelte/icons/linkedin';
+	// import Twitter from 'lucide-svelte/icons/twitter';
+	// import Facebook from 'lucide-svelte/icons/facebook';
 	import Ig from '$lib/components/Ig.svelte';
+	import LinkedIn from "$lib/components/LinkedIn.svelte";
+  import Tweet from "$lib/components/Tweet.svelte";
+import * as Carousel from "$lib/components/ui/carousel/index";
 
 	export let data;
 	let { achievements, testimonials, posts, notices } = data;
@@ -97,43 +100,25 @@
 		Latest
 	</p>
 	<div class="mx-4 flex w-full min-w-[400px] flex-wrap gap-4 justify-around">
-		<Ig/>
-		<!-- <div class="grid min-h-20 gap-2 p-4 sm:grid-cols-1 lg:grid-cols-2" style="flex:3"> -->
-		<!-- 	{#each posts as post} -->
-		<!-- 		{#if post.platform === 'Instagram'} -->
-		<!-- 			<a -->
-		<!-- 				href={'https://www.instagram.com/' + post.url} -->
-		<!-- 				class="flex h-full w-full items-end justify-center gap-2 rounded-lg border-2 border-white p-4" -->
-		<!-- 			> -->
-		<!-- 				<Instagram class="h-10 w-10" /> -->
-		<!-- 				<p class="text-2xl">{post.platform}</p> -->
-		<!-- 			</a> -->
-		<!-- 		{:else if post.platform === 'Twitter'} -->
-		<!-- 			<a -->
-		<!-- 				href={post.url} -->
-		<!-- 				class="flex h-full w-full items-end justify-center gap-2 rounded-lg border-2 border-white p-4" -->
-		<!-- 			> -->
-		<!-- 				<Twitter class="h-10 w-10" /> -->
-		<!-- 				<p class="text-2xl">{post.platform}</p> -->
-		<!-- 			</a> -->
-		<!-- 		{:else if post.platform === 'LinkedIn'} -->
-		<!-- 			<a -->
-		<!-- 				href={'https://www.linkedin.com/posts/' + post.url} -->
-		<!-- 				class="flex h-full w-full items-end justify-center gap-2 rounded-lg border-2 border-white p-4" -->
-		<!-- 			> -->
-		<!-- 				<Linkedin class="h-10 w-10" /> -->
-		<!-- 				<p class="text-2xl">{post.platform}</p> -->
-		<!-- 			</a> -->
-		<!-- 		{:else if post.platform === 'Facebook'} -->
-		<!-- 			<a -->
-		<!-- 				href={'https://www.linkedin.com/posts/' + post.url} -->
-		<!-- 				class="flex h-full w-full items-end justify-center gap-2 rounded-lg border-2 border-white p-4" -->
-		<!-- 			> -->
-		<!-- 				<Facebook class="h-10 w-10" /> -->
-		<!-- 				<p class="text-2xl">{post.platform}</p> -->
-		<!-- 			</a> -->
-		<!-- 		{/if} -->
-		<!-- 	{/each} -->
+		<!-- <Ig/> -->
+    <Carousel.Root class="w-[400px]">
+      <Carousel.Content>
+			{#each posts as post}
+      <Carousel.Item>
+				{#if post.platform === 'Instagram'}
+        <Ig image={post.image} url={post.url}/>
+				{:else if post.platform === 'LinkedIn'}
+          <LinkedIn url={post.url} />
+          {:else if post.platform === 'Twitter'}
+<Tweet url={post.url} text={post.image}/>
+          {/if}
+
+      </Carousel.Item>
+			{/each}
+    </Carousel.Content>
+      <Carousel.Previous />
+    <Carousel.Next />
+    </Carousel.Root> 
 		<!-- </div> -->
 		<!-- TODO: Notices -->
 		<div class="min-h-[30rem] bg-slate-800 rounded-lg p-4 h-auto w-[40rem]">

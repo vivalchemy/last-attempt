@@ -17,13 +17,11 @@
 
 	let url: string;
 	let postId: string;
-  let image: string;
 	let searchQuery: string;
 	type Post = {
 		id: number;
 		platform: 'Instagram' | 'Twitter' | 'LinkedIn';
 		url: string;
-    image?: string;
 	};
 	$: console.log(postId);
 	onMount(() => {
@@ -78,15 +76,13 @@
 	}
 
 	function checkLinkedInUrl() {
-    const regex = /urn:li:(ugcPost|share):(\d+)/;
-    const match = url.match(regex);
-    if (match) {
-        postId = match[0];
-        // return match[0];
-        console.log(postId);
-    } else {
-        return null;
-    }
+		const pattern = /\/posts\/([^/?]+)/;
+		const match = url.match(pattern);
+		if (match) {
+			postId = match[1];
+		} else {
+			return null;
+		}
 	}
 
 	function checkTwitterUrl() {
@@ -94,7 +90,6 @@
 		const match = url.match(pattern);
 		if (match) {
 			postId = match[1];
-      console.log(postId);
 		} else {
 			return null;
 		}
@@ -131,7 +126,7 @@
 	async function updatePost() {
 		const { error } = await supabase
 			.from('posts')
-			.update({ url: postId, image })
+			.update({ url: postId })
 			.eq('platform', selectedPlatform);
 		if (error) {
 			alert(error.message);
@@ -166,7 +161,7 @@
 
 		const { error } = await supabase
 			.from('posts')
-			.insert([{ platform: selectedPlatform, url: postId, image }]);
+			.insert([{ platform: selectedPlatform, url: postId }]);
 		if (error) {
 			alert(error.message);
 			return;
@@ -228,41 +223,13 @@
 			</Command.Root>
 		</Popover.Content>
 	</Popover.Root>
-  {#if selectedPlatform === 'LinkedIn'}
-  <Label for="url">Link of embed</Label>
-	<Input
-		name="url"
-		placeholder="Embed link e.g. < src='https://www.linkedin.com/embed/feed/update/..."
-		bind:value={url}
-		class="border-0 bg-slate-700 ring-0 focus:ring-primary focus-visible:ring-offset-0"
-	/>
-  {:else}
-	<Label for="url">Link to the post</Label>
+	<Label for="quote">Link to the post</Label>
 	<Input
 		name="url"
 		placeholder="Post link e.g. https://www.instagram.com/p/C4sejylIKZ9/"
 		bind:value={url}
 		class="border-0 bg-slate-700 ring-0 focus:ring-primary focus-visible:ring-offset-0"
 	/>
-  {/if}
-  {#if selectedPlatform === 'Instagram'}
-  <Label for="image">Link to the Image</Label>
-	<Input
-		name="image"
-		placeholder="Image link"
-		bind:value={image}
-		class="border-0 bg-slate-700 ring-0 focus:ring-primary focus-visible:ring-offset-0"
-	/>
-  {/if}
-  {#if selectedPlatform === 'Twitter'}
-  <Label for="image">Tweet</Label>
-	<Input
-		name="image"
-		placeholder="Tweet"
-		bind:value={image}
-		class="border-0 bg-slate-700 ring-0 focus:ring-primary focus-visible:ring-offset-0"
-	/>
-  {/if}
 	<Button class="col-span-2 mt-2" on:click={addPost}>Update Post</Button>
 </div>
 <div class="mt-4 flex flex-col gap-2">
@@ -292,8 +259,8 @@
 	{#if posts.length > 0}
 		<div class="grid grid-cols-7 gap-2 overflow-x-auto rounded-lg bg-slate-800 p-4">
 			<p class="col-span-1">id</p>
-			<p class="col-span-3">platform</p>
 			<p class="col-span-2">url</p>
+			<p class="col-span-3">platform</p>
 			<p class="col-span-1"></p>
 			{#each posts as post (post.id)}
 				{#if searchQuery === undefined || post.url
@@ -302,8 +269,8 @@
 						.toLowerCase()
 						.includes(searchQuery.toLowerCase())}
 					<p class="col-span-1">{post.id}</p>
+					<p class="col-span-3">{post.url}</p>
 					<p class="col-span-2">{post.platform}</p>
-					<p class="col-span-3 break-all">{post.url}</p>
 					<Tooltip.Root>
 						<Tooltip.Trigger asChild let:builder>
 							<span

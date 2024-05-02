@@ -35,9 +35,4 @@ export const services: service[] = [
 		href: '/admin/dashboard/services/notices',
 		icon: ClipboardList
 	},
-	{
-		title: 'Student Achievements',
-		href: '/admin/dashboard/services/student-achievements/',
-		icon: Trophy
-	}
 ];
