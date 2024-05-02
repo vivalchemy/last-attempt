@@ -25,7 +25,7 @@ const login: Action = async ({ cookies, request }) => {
 			// set cookie to expire after an 3 hours
 			maxAge: 60 * 60 * 3
 		});
-		redirect(302, '/admin/dashboard/');
+		redirect(302, '/admin/dashboard/services/achievements');
 	}
 
 	// redirect the user

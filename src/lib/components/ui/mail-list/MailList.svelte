@@ -40,7 +40,7 @@
 </script>
 
 <p class="mb-2 flex justify-center text-xl">Notices</p>
-<ScrollArea class="h-[50vh]">
+<ScrollArea class="h-[30rem]">
 	<div class="flex flex-col gap-2 p-4 pt-0">
 		{#each notices as notice (notice.id)}
 			<a

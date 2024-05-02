@@ -6,13 +6,14 @@
   import RefreshCcw from 'lucide-svelte/icons/refresh-ccw';
   import Info from 'lucide-svelte/icons/info';
   import { onMount } from 'svelte';
-  import { Button } from '$lib/components/ui/button';
+  import { Button , buttonVariants} from '$lib/components/ui/button';
   import * as Command from '$lib/components/ui/command/index.js';
   import * as Popover from '$lib/components/ui/popover/index.js';
   import { tick } from 'svelte';
   import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
   import Check from 'lucide-svelte/icons/check';
   import { cn } from '$lib/utils.js';
+  import ExternalLink from 'lucide-svelte/icons/external-link';
 
   let student_name: string = "";
   let student_id: number;
@@ -209,7 +210,7 @@
 
   <!-- Achievement details -->
   <Label for="achievements">Achievement Title</Label>
-  <Input name="achievements" placeholder="achievements" bind:value={achievements} class="border-0 bg-slate-700 ring-0 focus:ring-primary focus-visible:ring-offset-0" required />
+  <Input name="achievements" placeholder="achievement" bind:value={achievements} class="border-0 bg-slate-700 ring-0 focus:ring-primary focus-visible:ring-offset-0" required />
 
   <Label for="proof">Link to proof</Label>
   <Input name="proof" placeholder="Proof" bind:value={proof} class="border-0 bg-slate-700 ring-0 focus:ring-primary focus-visible:ring-offset-0" required />
@@ -233,14 +234,32 @@
     </Tooltip.Root>
   </div>
   {#if studentAchievements.length > 0}
-    <div class="grid grid-cols-4 items-center gap-2 overflow-x-auto rounded-lg bg-slate-800 p-4">
-      <p class="col-span-1">id</p>
-      <p class="col-span-2">Title</p>
-      <p class="col-span-1"></p>
+    <div class="grid grid-cols-4 items-center gap-2 min-w-screen rounded-lg bg-slate-800 p-4">
+      <p class="col-span-2">Name</p>
+      <p class="col-span-1">Branch</p>
+      <p class="col-span-1">Year</p>
+      <p class="col-span-2">Achievement</p> 
+      <p class="col-span-1">Proof</p>
       {#each studentAchievements as achievement (achievement.student_id)}
         {#if searchQuery === undefined || achievement.achievements.toLowerCase().includes(searchQuery.toLowerCase()) || achievement.student_name.toLowerCase().includes(searchQuery.toLowerCase())}
-          <p class="col-span-1">{achievement.student_id}</p>
           <p class="col-span-2">{achievement.student_name}</p>
+          <p class="col-span-1">{achievement.branch}</p>
+          <p class="col-span-1">{achievement.year}</p>
+          <p class="col-span-2">{achievement.achievements}</p>
+          <Tooltip.Root>
+						<Tooltip.Trigger asChild let:builder>
+							<span
+								class="flex cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-primary-foreground"
+								use:builder.action
+								{...builder}
+							>
+										<a href={achievement.proof} target="_blank">
+                      <ExternalLink class="h-4 w-4 rounded-md text-white" />
+                    </a>
+							</span>
+						</Tooltip.Trigger>
+						<Tooltip.Content side="right">Go to the proof of the image</Tooltip.Content>
+					</Tooltip.Root>
         {/if}
       {/each}
     </div>

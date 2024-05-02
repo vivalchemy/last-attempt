@@ -213,6 +213,24 @@ notices = [
 	}
 ];
 
+async function getNotices() {
+	console.log('Getting notices');
+	try {
+		let { data, error } = await supabase.from('notices').select();
+		if (error) {
+			alert(error.message);
+		}
+		console.log(data);
+		if (data) {
+			notices = data;
+		}
+	} catch (error) {
+		alert(error.message);
+		// You can handle the error in a more appropriate way here, such as logging or displaying it in the UI
+		// return []; // Return an empty array if fetching fails
+	}
+}
+
 async function getAchievements() {
 	console.log('Getting Achievements');
 	try {

@@ -4,7 +4,7 @@
 	import type { Icon } from 'lucide-svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
-	import { Search } from 'lucide-svelte';
+	import { Search, ChevronDown } from 'lucide-svelte';
 	import { page } from '$app/stores';
 
 	type navItem = {
@@ -39,11 +39,13 @@
 				</li>
 			{:else}
 				<DropdownMenu.Root>
-					<DropdownMenu.Trigger>{navItem.name}</DropdownMenu.Trigger>
-					<DropdownMenu.Content class="bg-slate-900 border-0 text-white">
+					<DropdownMenu.Trigger>
+						<div class="flex justify-center">{navItem.name} <ChevronDown class="w-4" /></div>
+					</DropdownMenu.Trigger>
+					<DropdownMenu.Content class="border-0 bg-slate-900 text-white">
 						<DropdownMenu.Group>
 							<DropdownMenu.Label>{navItem.name}</DropdownMenu.Label>
-							<DropdownMenu.Separator class="bg-slate-800"/>
+							<DropdownMenu.Separator class="bg-slate-800" />
 							{#each navItem.submenu as subNavItem}
 								<a href={navItem.link + subNavItem.link}>
 									<DropdownMenu.Item class="hover:bg-slate-800">

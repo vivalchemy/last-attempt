@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let showFade: boolean = true;
+	export let showFade: boolean = false;
 </script>
 
 <div

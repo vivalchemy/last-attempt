@@ -171,7 +171,7 @@
 </script>
 
 <h2 class="flex items-center justify-start gap-2 text-3xl">
-	Testimonials
+		Social Media Posts	
 	<Tooltip.Root>
 		<Tooltip.Trigger asChild let:builder>
 			<span
