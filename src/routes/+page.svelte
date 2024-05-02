@@ -17,14 +17,12 @@
 	import Navbar from '$lib/components/ui/Navbar/Navbar.svelte';
 	import type { ComponentType } from 'svelte';
 	import type { Icon } from 'lucide-svelte';
-	// import Instagram from 'lucide-svelte/icons/instagram';
-	// import Linkedin from 'lucide-svelte/icons/linkedin';
-	// import Twitter from 'lucide-svelte/icons/twitter';
-	// import Facebook from 'lucide-svelte/icons/facebook';
+
 	import Ig from '$lib/components/Ig.svelte';
 	import LinkedIn from "$lib/components/LinkedIn.svelte";
   import Tweet from "$lib/components/Tweet.svelte";
 import * as Carousel from "$lib/components/ui/carousel/index";
+import Footer from "$lib/components/Footer.svelte";
 
 	export let data;
 	let { achievements, testimonials, posts, notices } = data;
@@ -165,3 +163,5 @@ import * as Carousel from "$lib/components/ui/carousel/index";
 </div>
 
 <InfiniteMovingCards items={testimonials} direction="right" speed="slow" className="mb-32" />
+
+<Footer />
