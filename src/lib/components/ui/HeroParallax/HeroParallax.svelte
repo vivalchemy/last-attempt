@@ -10,9 +10,9 @@
 	import { Motion, useTransform, useSpring, useViewportScroll } from 'svelte-motion';
 	import ProductCard from './ProductCard.svelte';
 
-	const firstRow = products.slice(0, 5);
-	const secondRow = products.slice(5, 10);
-	const thirdRow = products.slice(10, 15);
+	const firstRow = products.slice(0, 3);
+	const secondRow = products.slice(3, 6);
+	const thirdRow = products.slice(6, 9);
 	let ref: HTMLDivElement | null = null;
 
 	const { scrollYProgress } = useViewportScroll();
@@ -64,6 +64,7 @@
 					{#each secondRow as product (product.title)}
 						<ProductCard {product} translate={translateXReverse} />
 					{/each}
+          
 				</div>
 			</Motion>
 			<Motion let:motion>

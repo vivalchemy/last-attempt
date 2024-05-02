@@ -155,9 +155,9 @@
 
   $: console.log(selectedSearchBranch);
   $: console.log(selectedSearchYear);
-  // onMount(() => {<Eye />
-  //   getAchievements();
-  // })
+  onMount(() => {
+    getAchievements();
+  })
 </script>
 
 <!-- Title -->

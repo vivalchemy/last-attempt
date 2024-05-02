@@ -289,9 +289,10 @@ async function getTestimonials() {
 
 
 export async function load(): Promise<PageServerLoad> {
-	// getPosts();
-	// getAchievements();
-	// getTestimonials();
+	await getPosts();
+	await getAchievements();
+	await getTestimonials();
+  await getNotices();
 	return {
 		achievements,
 		posts,

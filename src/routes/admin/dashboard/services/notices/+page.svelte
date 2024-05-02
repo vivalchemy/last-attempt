@@ -19,18 +19,23 @@
 		description: string;
 		link: string;
 	};
-	// onMount(() => {
-	// 	getNotices();
-	//});
+	onMount(() => {
+		getNotices();
+	});
 	let notices: Notice[] = [];
 	async function addNotice() {
 		if (!title || !title.trim()) {
 			alert('Please fill the content first');
 			return;
-		}
-		title = title.trim();
-		description = description.trim();
-		link = link.trim();
+		}else{
+      title = title.trim();
+    }
+    if(description){
+      description = description.trim();
+    }
+    if(link){
+      link = link.trim();
+    }
 		const { error } = await supabase.from('notices').insert([{ title, description, link }]);
 		if (error) {
 			alert(error.message);
