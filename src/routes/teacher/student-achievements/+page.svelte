@@ -14,13 +14,14 @@
   import Check from 'lucide-svelte/icons/check';
   import { cn } from '$lib/utils.js';
   import ExternalLink from 'lucide-svelte/icons/external-link';
-  
+  import { Eye,EyeOff } from 'lucide-svelte';
+
   let student_name: string = "";
   let student_id: number;
   let proof: string = "";
   let achievements: string = "";
   let searchQuery: string = "";
-
+  let isPrinting: boolean = false;
   type Achievement = {
     student_name: string;
     student_id: number;
@@ -72,6 +73,10 @@
   let branchValue: string = '';
   let yearOpen: boolean = false;
   let yearValue: number | undefined = undefined;
+  let branchSearchOpen: boolean = false;
+  let branchSearchValue: string = '';
+  let yearSearchOpen: boolean = false;
+  let yearSearchValue: number | undefined = undefined;
 
   let studentAchievements: Achievement[] = [];
 
@@ -85,6 +90,22 @@
 
   function closeAndFocusTriggerYear(triggerId: string) {
     yearOpen = false;
+    tick().then(() => {
+      const trigger = document.getElementById(triggerId);
+      if (trigger) trigger.focus();
+    });
+  }
+
+  function closeAndFocusTriggerSearchBranch(triggerId: string) {
+    branchSearchOpen = false;
+    tick().then(() => {
+      const trigger = document.getElementById(triggerId);
+      if (trigger) trigger.focus();
+    });
+  }
+
+  function closeAndFocusTriggerSearchYear(triggerId: string) {
+    yearSearchOpen = false;
     tick().then(() => {
       const trigger = document.getElementById(triggerId);
       if (trigger) trigger.focus();
@@ -129,29 +150,51 @@
   $: console.log(selectedBranch);
   $: console.log(selectedYear);
 
-  // onMount(() => {
+  $: selectedSearchBranch = branchList.find(f => f.value === branchSearchValue)?.value ?? 'Select branch...';
+  $: selectedSearchYear = yearList.find(f => f.value === yearSearchValue)?.value ?? 'Select year...';
+
+  $: console.log(selectedSearchBranch);
+  $: console.log(selectedSearchYear);
+  // onMount(() => {<Eye />
   //   getAchievements();
   // })
 </script>
 
 <!-- Title -->
-<h2 class="flex items-center justify-start gap-2 text-3xl">
-  Student Achievements
-  <Tooltip.Root>
-    <Tooltip.Trigger asChild let:builder>
-      <span class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-primary-foreground md:h-8 md:w-8" use:builder.action {...builder}>
-        <Info class="h-5 w-5" />
-      </span>
-    </Tooltip.Trigger>
-    <Tooltip.Content side="right">All the achievements on the homepage can be accessed here</Tooltip.Content>
-  </Tooltip.Root>
+<h2 class="flex items-center justify-between gap-2 text-3xl">
+  <div class="flex  {isPrinting ? 'text-muted-foreground' : ''}">
+    Student Achievements
+    <Tooltip.Root>
+      <Tooltip.Trigger asChild let:builder>
+        <span class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-primary-foreground md:h-8 md:w-8" use:builder.action {...builder}>
+          <Info class="h-5 w-5" />
+        </span>
+      </Tooltip.Trigger>
+      <Tooltip.Content side="right">All the achievements on the homepage can be accessed here</Tooltip.Content>
+    </Tooltip.Root>
+  </div>
+  <Button on:click={() => (isPrinting = !isPrinting)}>
+    <Tooltip.Root>
+      <Tooltip.Trigger asChild let:builder>
+        <span class="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg text-background md:h-8 md:w-8" use:builder.action {...builder}>
+          {#if isPrinting}
+          <!-- <Info class="h-5 w-5" /> -->
+          <Eye/>
+          {:else}
+          <EyeOff/>
+          {/if}
+    </span>
+  </Tooltip.Trigger>
+  <Tooltip.Content side="right">Toggle the form visibility</Tooltip.Content>
+</Tooltip.Root>
+  </Button>
 </h2>
 
 <hr class="m-2 border-2 border-muted-foreground" />
 
 <!-- Form -->
 
-<div class="grid grid-cols-2 gap-2 rounded-lg bg-slate-800 p-4">
+<div class="grid grid-cols-2 gap-2 rounded-lg bg-slate-800 p-4 {isPrinting ? 'hidden' : ''}">
   <Label for="studentName">Student name</Label>
   <Input name="studentName" placeholder="Student Name" bind:value={student_name} class="border-0 bg-slate-700 ring-0 focus:ring-primary focus-visible:ring-offset-0" />
 
@@ -219,9 +262,61 @@
 </div>
 
 <!-- Database -->
-<div class="mt-4 flex flex-col gap-2">
-  <div class="flex justify-end gap-2">
-    <Input name="searchInput" placeholder="Search an achievement" bind:value={searchQuery} class="w-1/2 border-0 bg-slate-700 ring-0 focus:ring-primary focus-visible:ring-offset-0" />
+<div class="mt-4 flex flex-col gap-2 {isPrinting ? 'text-muted-foreground' : ''}">
+  <div class="flex justify-end items-center gap-2">
+    <!-- Filter Start-->
+    {#if isPrinting}
+    <p class="px-2">Year</p>
+    {/if}
+    <Popover.Root bind:open={yearSearchOpen} let:ids>
+      <Popover.Trigger asChild let:builder>
+        <Button builders={[builder]} variant="outline" role="combobox" aria-expanded={yearSearchOpen} class="w-[200px] justify-between border-none bg-slate-900 hover:bg-slate-700 hover:text-white">
+          {selectedSearchYear}
+          <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </Popover.Trigger>
+      <Popover.Content class="w-[200px] border-none p-0">
+        <Command.Root class="border-2 border-slate-400 bg-slate-700 text-white">
+          <Command.Input placeholder="Search Year..." />
+          <Command.Empty>No Year Found</Command.Empty>
+          <Command.Group>
+            {#each yearList as year}
+              <Command.Item value={year.value.toString()} onSelect={(currentValue) => { yearSearchValue = parseInt(currentValue); closeAndFocusTriggerSearchYear(ids.trigger); }} class="text-white aria-selected:bg-slate-900 aria-selected:text-white">
+                <Check class={cn('mr-2 h-4 w-4', yearSearchValue !== year.value && 'text-transparent')} />
+                {year.label}
+              </Command.Item>
+            {/each}
+          </Command.Group>
+        </Command.Root>
+      </Popover.Content>
+    </Popover.Root>
+    {#if isPrinting}
+    <p class="px-2">Branch</p>
+    {/if}
+    <Popover.Root bind:open={branchSearchOpen} let:ids>
+      <Popover.Trigger asChild let:builder>
+        <Button builders={[builder]} variant="outline" role="combobox" aria-expanded={branchSearchOpen} class="w-[200px] justify-between border-none bg-slate-900 hover:bg-slate-700 hover:text-white">
+          {selectedSearchBranch}
+          <ChevronsUpDown class="ml-2 h-4 w-4 shrink-0 opacity-50" />
+        </Button>
+      </Popover.Trigger>
+      <Popover.Content class="w-[200px] border-none p-0">
+        <Command.Root class="border-2 border-slate-400 bg-slate-700 text-white">
+          <Command.Input placeholder="Search Branch..." />
+          <Command.Empty>No Branch Found</Command.Empty>
+          <Command.Group>
+            {#each branchList as branch}
+              <Command.Item value={branch.value} onSelect={(currentValue) => { branchSearchValue = currentValue; closeAndFocusTriggerSearchBranch(ids.trigger); }} class="text-white aria-selected:bg-slate-900 aria-selected:text-white">
+                <Check class={cn('mr-2 h-4 w-4', branchSearchValue !== branch.value && 'text-transparent')} />
+                {branch.label}
+              </Command.Item>
+            {/each}
+          </Command.Group>
+        </Command.Root>
+      </Popover.Content>
+    </Popover.Root>
+    <!-- Filter End -->
+    <Input name="searchInput" placeholder="Search an achievement" bind:value={searchQuery} class="w-1/2 border-0 bg-slate-700 ring-0 focus:ring-primary focus-visible:ring-offset-0 {isPrinting ? 'hidden' : ''}" />
     <Tooltip.Root>
       <Tooltip.Trigger asChild let:builder>
         <span class="flex cursor-pointer items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-primary-foreground" use:builder.action {...builder}>
@@ -235,14 +330,16 @@
   </div>
   {#if studentAchievements.length > 0}
     <div class="grid grid-cols-7 items-center gap-2 min-w-screen rounded-lg bg-slate-800 p-4">
-      <p class="col-span-2">Name</p>
+      <p class="col-span-1">Roll No</p>
+      <p class="col-span-1">Name</p>
       <p class="col-span-1">Branch</p>
       <p class="col-span-1">Year</p>
       <p class="col-span-2">Achievement</p> 
       <p class="col-span-1">Proof</p>
       {#each studentAchievements as achievement (achievement)}
-        {#if searchQuery === undefined || achievement.achievements.toLowerCase().includes(searchQuery.toLowerCase()) || achievement.student_name.toLowerCase().includes(searchQuery.toLowerCase())}
-          <p class="col-span-2">{achievement.student_name}</p>
+        {#if (searchQuery === undefined || achievement.achievements.toLowerCase().includes(searchQuery.toLowerCase()) || achievement.student_name.toLowerCase().includes(searchQuery.toLowerCase()) || achievement.student_id.toString().includes(searchQuery)) && ( selectedSearchBranch === 'Select branch...' || selectedSearchBranch === achievement.branch) && (selectedSearchYear === 'Select year...' || selectedSearchYear === achievement.year) }
+        <p class="col-span-1">{achievement.student_id}</p>
+          <p class="col-span-1">{achievement.student_name}</p>
           <p class="col-span-1">{achievement.branch}</p>
           <p class="col-span-1">{achievement.year}</p>
           <p class="col-span-2 break-words">{achievement.achievements}</p>
